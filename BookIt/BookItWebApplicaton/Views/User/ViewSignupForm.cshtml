@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Signup";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+<link href="~/CONTENT/Styles/SingUp.css" rel="stylesheet"   />
+
+<form  action="http://localhost:5092/User/Signup" method="POST">
+    <div class="mainC">
+        <!-- Username -->
+        <div class="input-group">
+            <label for="username">User Name</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user icon"></i>
+                <input type="text" id="username" name="username" required>
+            </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="input-group">
+            <label for="phone">Phone Number</label>
+            <div class="input-wrapper">
+                <i class="fas fa-mobile-alt icon"></i>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="input-group">
+            <label for="email">Email address</label>
+            <div class="input-wrapper">
+                <i class="fas fa-envelope icon"></i>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye show-password" onclick="togglePassword()"></i>
+            </div>
+        </div>
+
+        <!-- description -->
+        <div class="input-group">
+            <label for="descript">Some thing you want us to know</label>
+            <div class="input-wrapper">
+                <input type="text" id="descript" name="descript">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn">Create Account</button>
+        <p class="login-text">Already have an account? <a href="http://localhost:5092/User/ViewLoginForm">Log in here</a></p>
+    </div>
+</form>
+
+   
+
+
+<script>
+    function togglePassword() {
+        let passwordInput = document.getElementById("password");
+        let icon = document.querySelector(".show-password");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+
+
+

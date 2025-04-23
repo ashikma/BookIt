@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "View";
+    var isUserLoggedIn = string.IsNullOrEmpty(Context.Session.GetString("userID"));
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="~/content/scripts/ajax.js"></script>
+<link href="~/content/styles/styleMaster.css" rel="stylesheet" />
+<div class="wrapper">
+    <header class="navBar">
+        <section class="logo">
+            <img class="logoImg" src="http://localhost:5221/img/logo.png" />
+        </section>
+        <ul class="menu">
+            <span class="GoTo"><a href="http://localhost:5092/Catalog/GetWorksCatalog">Catalog</a></span>
+            <span class="GoTo"><a href="http://localhost:5092/Catalog/GetTreatments">Our Treatments</a></span>
+            <span class="GoTo">Products</s>
+            @* @if (TempData["id"] != null) { } *@
+            <!--<li class="appointment"></li> coming from the treatments-->
+        </ul>
+        <ul class="register">
+            @if(isUserLoggedIn)
+            {
+                <li class="singUp"><a href="http://localhost:5092/User/ViewSignupForm">Sign Up</li>
+                <li class="singIn"><a href="http://localhost:5092/User/ViewLoginForm">Sing In</a></li>
+            }
+            else
+            {
+                <li class="logout"><a href="http://localhost:5092/User/Logout">logout</a></li>
+            }
+        </ul>
+
+    </header>
+    <main class="mainContent" id="main">
+        @RenderBody()
+    </main>
+</div>

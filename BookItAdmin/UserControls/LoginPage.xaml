@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="BookItAdmin.UserControls.LoginPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookItAdmin.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#f0f0f0">
+        <Border CornerRadius="10" Padding="20" Background="White" Margin="50" VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="Login" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Username" Margin="0,0,0,5"/>
+                <TextBox x:Name="UsernameBox" Height="30"/>
+
+                <TextBlock Text="Password" Margin="10,10,0,5"/>
+                <PasswordBox x:Name="PasswordBox" Height="30"/>
+
+                <Button x:Name="btnLogin" Content="Login" Margin="0,20,0,0" Height="35" Background="#007ACC" Foreground="White" Click="btLog_Click"/>
+                <TextBlock x:Name="StatusText" Foreground="Red" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

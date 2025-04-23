@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="System.Data.OleDb" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookItModels\BookItModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\IMG\1.jpg" />
+    <None Include="wwwroot\IMG\10.jpg" />
+    <None Include="wwwroot\IMG\11.jpg" />
+    <None Include="wwwroot\IMG\2.jpg" />
+    <None Include="wwwroot\IMG\3.jpg" />
+    <None Include="wwwroot\IMG\4.jpg" />
+    <None Include="wwwroot\IMG\5.jpg" />
+    <None Include="wwwroot\IMG\6.jpg" />
+    <None Include="wwwroot\IMG\7.jpg" />
+    <None Include="wwwroot\IMG\8.jpg" />
+    <None Include="wwwroot\IMG\9.jpg" />
+  </ItemGroup>
+
+</Project>

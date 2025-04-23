@@ -1,0 +1,32 @@
+﻿<Window x:Class="BookItAdmin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookItAdmin"
+        mc:Ignorable="d"
+        Title="BookIt" Height="900" Width="1200">
+    <Canvas >
+
+        <Canvas Width="250" HorizontalAlignment="Center" Height="884" VerticalAlignment="Top" Background="#e0bfb8">
+            <Button x:Name="btLogin"  Canvas.Left="80" Canvas.Top="85" Height="35" Width="127" Click="btLogin_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Name="lblogin" Content="Login"></Label>
+                        <Image x:Name="imglogin" Source="/Images/login.png"
+                               Width="16"/>
+                    </StackPanel>
+
+                </Button.Content>
+            </Button>
+
+            <StackPanel Name="stButtons" Canvas.Left="80" Canvas.Top="142" Margin="10,0,0,0">
+                <Button Content="treatments" Canvas.Left="80" Canvas.Top="177" Height="22" Width="72" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,10" Click="treatments_Click"/>
+                <Button Content="appointments" Canvas.Left="80" Canvas.Top="245" Height="22" Width="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,10"/>
+                <Button Content="Loin" Canvas.Left="80" Canvas.Top="321" Height="22" Width="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,10"/>
+                <Button Content="Loin" Canvas.Left="80" Canvas.Top="399" Height="22" Width="72" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,10"/>
+            </StackPanel>
+        </Canvas>
+        <Border x:Name="brContent" Height="884" Width="950" Canvas.Left="250" />
+    </Canvas>
+</Window>

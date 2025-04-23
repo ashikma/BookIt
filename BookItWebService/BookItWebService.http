@@ -1,0 +1,6 @@
+@BookItWebService_HostAddress = http://localhost:5221
+
+GET {{BookItWebService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

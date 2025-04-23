@@ -1,0 +1,51 @@
+﻿/* Style for the entire works container */
+.allWorks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #ffe6f2; /* Light pink background */
+    color: #4e342e; /* Dark rose gold text for contrast */
+}
+
+/* Style for each work item */
+.work {
+    background: linear-gradient(90deg, #d4af91, #c8a279, #b76e79); /* White to softer rose gold gradient */
+    border: 2px solid #b76e79; /* Bold rose gold border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+}
+
+    .work:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        border-color: #a15d6e; /* Darker rose gold on hover */
+    }
+
+/* Style for treatment details */
+.wDate, .cost, .time {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #4e342e; /* Dark rose gold for text */
+}
+
+/* Style for work image */
+.wImg {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 2px solid #b76e79; /* Rose gold border */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+    .wImg:hover {
+        transform: scale(1.05); /* Slight zoom effect */
+        border-color: #d99aab; /* Softer rose gold on hover */
+    }

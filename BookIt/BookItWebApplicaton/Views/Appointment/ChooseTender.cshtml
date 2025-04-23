@@ -1,0 +1,24 @@
+﻿@using BookIt
+@model List<User>
+
+@{
+    ViewData["Title"] = "ChooseTender";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+
+<link href="~/content/styles/managers.css" rel="stylesheet" />
+
+<div class="allManagers">
+    <h1 class="title">choose your tender</h1>
+    <button class="back" onclick="history.back()" value="Back"></button>
+    @foreach (User u in Model)
+    {
+        <div class="manager">
+            <h2 class="mName">@u.UserName</h2>
+            <a href="http://localhost:5092/Appointment/ChooseDate">
+        </div>
+    }
+    <button class="next">Continue</button>
+</div>
+
+

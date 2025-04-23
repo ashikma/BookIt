@@ -1,0 +1,23 @@
+﻿@using BookIt
+@model List<Work>
+
+@{
+    ViewData["Title"] = "GetWorksCatalog";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+<link href="~/content/styles/catalogWorks.css" rel="stylesheet" />
+
+<div class="allWorks">
+    @* <input type="file" class="file" name="file" id="photo" accept=".jpg, .png, .gif | image/*"/> *@
+    @* enctype="multipart/form-data" *@
+    @foreach(Work t in Model)
+    {
+        <div class="work">
+            <h1 class="wDate">@t.Date</h1>
+            <h1 class="cost">@t.Cost $</h1>
+            <h1 class="time">@t.Time</h1>
+            <img class="wImg" src="@t.ImgName"/>
+        </div>
+    }
+</div>
+

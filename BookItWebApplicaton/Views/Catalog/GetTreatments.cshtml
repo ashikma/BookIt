@@ -1,0 +1,47 @@
+﻿@using BookIt
+@model List<Treatment>
+
+@{
+    ViewData["Title"] = "GetTreatments";
+    Layout = "~/Views/Shared/View.cshtml";
+}
+<link href="~/content/styles/treatments.css" rel="stylesheet" />
+
+<div class="allTreatments">
+    <input type="text" id="filterInput" class="filter-box" placeholder="Search..." oninput="applyFilter()">
+
+    
+    @if(Model!=null)
+    {
+       @foreach (Treatment t in Model)
+        {
+            <div class="treatment">
+                <h1 class="tName">@t.TreatmentName</h1>
+                <h1 class="tCost">@t.CostRange $</h1>
+                <h1 class="tTime">@t.TimeRange </h1>
+                <h1 class="tExplain">@t.Explanation </h1>
+                <a href="http://localhost:5092/Appointment/ChooseTender">
+            </div>
+        }
+    }
+    else
+    {
+        <h1>something went wrong. try again later.</h1>
+    }
+</div>
+
+
+<script>
+    function applyFilter() {
+        let filterValue = document.getElementById("filterInput").value.toLowerCase();
+        let items = document.querySelectorAll(".filter-item"); // Change this selector based on your content
+
+        items.forEach(item => {
+            if (item.textContent.toLowerCase().includes(filterValue)) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+</script>

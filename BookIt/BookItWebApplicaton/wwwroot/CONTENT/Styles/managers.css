@@ -1,0 +1,57 @@
+﻿body {
+}
+
+.allManagers {
+    border: 3px solid #4e342e; /* Dark pink border */
+    padding: 20px;
+    text-align: center;
+    color: black;
+    width: 50%;
+    margin: 50px auto; /* Centering */
+    border-radius: 10px;
+    position: relative;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.manager {
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.mName {
+    font-size: 18px;
+}
+
+.back {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4e342e; /* Dark pink */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.next {
+    display: block;
+    margin: 20px auto; /* Centering */
+    background-color: #4e342e; /* Dark pink */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}

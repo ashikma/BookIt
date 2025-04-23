@@ -1,0 +1,105 @@
+﻿
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Reset */
+body, h1, ul, li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Modern, clean font */
+    background-color: #ffe6f2; /* Light pink background */
+    color: #e0bfb8; /* Rose gold text */
+    line-height: 1.6;
+}
+
+/* Wrapper */
+.wraper {
+    max-width: 1200px;
+    padding: 0 20px;
+    margin-top: 200px;
+}
+
+/* Header Section (Navbar) */
+.navBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #b76e79, #c8a279, #d4af91); /* Rose gold ombre */
+    color: #fff;
+    padding: 15px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    margin-bottom: 200px;
+}
+
+.logoImg {
+    width: 120px;
+    height: 60px;
+    object-fit: cover;
+    
+}
+
+
+    ul.menu .GoTo {
+        margin: 0 15px;
+        cursor: pointer;
+        padding: 8px 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 4px;
+        color: #ffffff; /* White text for contrast */
+    }
+
+        ul.menu .GoTo:hover {
+            background: linear-gradient(90deg, #d4af91, #c8a279, #b76e79); /* Rose gold ombre hover */
+            color: #121212; /* Black text */
+            transform: scale(1.1); /* Slight zoom */
+        }
+
+/* Register Links (Sign In/Up Buttons) */
+ul.register {
+    display: flex;
+    list-style: none;
+}
+
+    ul.register li {
+        margin: 0 5px;
+        cursor: pointer;
+        padding: 8px 15px;
+        font-size: 1rem;
+        font-weight: bold;
+        background: linear-gradient(90deg, #b76e79, #c8a279, #d4af91); /* Rose gold ombre */
+        color: #121212; /* Black text for contrast */
+        border-radius: 20px; /* Rounded button */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Adds depth */
+    }
+
+a {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits the text color of its parent element */
+    cursor: default; /* Changes cursor to default (not a pointer) */
+    font-weight: normal; /* Keeps font weight normal */
+}
+
+        ul.register li:hover {
+            background: linear-gradient(90deg, #d4af91, #c8a279, #b76e79); /* Reverse ombre */
+            transform: scale(1.1); /* Subtle zoom effect */
+        }
+
+ /*Main Content Section*/ 
+.mainContent { 
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
