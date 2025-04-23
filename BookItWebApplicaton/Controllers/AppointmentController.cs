@@ -20,6 +20,8 @@ namespace BookItWebApplication.Controllers
             webClient.Path = "api/User/GetSchedule";
             string  json = webClient.Get().Result;
             var managers = Newtonsoft.Json.JsonConvert.DeserializeObject<string[,]>(json);
+            ViewBag.TreatmentID = "10";
+            ViewBag.UserID = "11";
             return View(managers);
         }
 
