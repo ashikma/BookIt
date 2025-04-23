@@ -5,24 +5,19 @@
 @{
     ViewData["Title"] = "ChooseTender";
     Layout = "~/Views/Shared/View.cshtml";
-    // ['1:00', '2:00', '3:00', '4:00', '5:00'],
-    //           ['2:00'],
-    //           ['3:00'],
-    //           ['4:00'],
-    //           ['5:00'],
-    //           ['6:00'],
-    //           ['7:00']
-
     string aviability = "";
     for (int i = 0; i < Model.GetLength(0); i++)
     {
         aviability += "[";
         for (int j = 0; j < Model.GetLength(1); j++)
         {
-            aviability += "'" + Model[i, j] + "'";
-            if (j != Model.GetLength(1) - 1)
+            if (Model[i, j] != "")
             {
-                aviability += ",";
+                aviability += "'" + Model[i, j] + "'";
+                if (j != Model.GetLength(1) - 1)
+                {
+                    aviability += ",";
+                }
             }
         }
         aviability += "]";

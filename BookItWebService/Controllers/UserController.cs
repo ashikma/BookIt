@@ -112,7 +112,7 @@ namespace BookItWebService.Controllers
                 int duration = (int)(Convert.ToDouble(appointment.Time) * 60) / 15; ;
                 for (int i = 0; i < duration; i++)
                 {
-                    workSchedule[index+i, day] = "     ";
+                    workSchedule[day,index + i] = "";
                 }
             }
             string json= Newtonsoft.Json.JsonConvert.SerializeObject(workSchedule);
@@ -133,26 +133,26 @@ namespace BookItWebService.Controllers
         {
             int startHour = 9;
             int finishHour = 19;
-            string[,] times = new string[(finishHour - startHour) * 4, days];
+            string[,] times = new string[ days,(finishHour - startHour) * 4];
             int minutes = 0;
-            for (int i = 0; i < times.GetLength(1); i++)
+            for (int i = 0; i < times.GetLength(0); i++)
             {
                 int start = startHour;
-                for (int j = 0; j < times.GetLength(0); j++)
+                for (int j = 0; j < times.GetLength(1); j++)
                 {
                     if (start < 10)
                     {
                         if (minutes == 0)
-                            times[j, i] = $"0{start}:0{minutes}";
+                            times[i, j] = $"0{start}:0{minutes}";
                         else
-                            times[j, i] = $"0{start}:{minutes}";
+                            times[i, j] = $"0{start}:{minutes}";
                     }
                     else
                     {
                         if (minutes == 0)
-                            times[j, i] = $"{start}:0{minutes}";
+                            times[i, j] = $"{start}:0{minutes}";
                         else
-                            times[j, i] = $"{start}:{minutes}";
+                            times[i, j] = $"{start}:{minutes}";
                     }
                     minutes += 15;
                     if (minutes == 60)
