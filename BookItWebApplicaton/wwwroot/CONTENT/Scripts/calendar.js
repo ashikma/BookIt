@@ -153,7 +153,6 @@
             var date = $(this).data('date');
             var time = $(this).data('time');
             var tmp = date + ' ' + time;
-            alert(tmp);
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
                 var idx = settings.selectedDates.indexOf(tmp);

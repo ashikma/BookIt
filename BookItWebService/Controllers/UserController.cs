@@ -79,9 +79,29 @@ namespace BookItWebService.Controllers
 
         }
 
-
         [HttpGet]
-        public string GetSchedule(string start="23/04/2025", string finish="29/04/2025")
+       public bool ScheduleTreatment(string treatmentID, string userID, string date,
+                                        string time, string duration)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                bool ok= unitOfWork.AppointmentRepository.AddAppoiment(treatmentID, userID,
+                                                                       date,time, duration);
+                return ok; 
+            }
+            catch (Exception ex) {
+                return false;
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+
+            [HttpGet]
+        public string GetSchedule(string start = "23/04/2025", string finish = "29/04/2025")
         {
             List<Appointment> appointments = null;
             try
@@ -100,7 +120,7 @@ namespace BookItWebService.Controllers
             DateTime startDate = DateTime.ParseExact(start, "dd/MM/yyyy", null);
             DateTime finishDate = DateTime.ParseExact(finish, "dd/MM/yyyy", null);
             TimeSpan timeSpan = finishDate - startDate;
-            int days = timeSpan.Days+1;
+            int days = timeSpan.Days + 1;
             string[,] workSchedule = GetTimes(days);
             foreach (Appointment appointment in appointments)
             {
@@ -108,19 +128,19 @@ namespace BookItWebService.Controllers
                 int day = appointmentDate.Day - startDate.Day;
                 int hour = appointmentDate.Hour;
                 int minutes = appointmentDate.Minute;
-                int index = (hour - 9) * 4 + (minutes / 15);
-                int duration = (int)(Convert.ToDouble(appointment.Time) * 60) / 15; ;
+                int index = (hour - 9) * 2 + (minutes / 30);
+                int duration = (int)(Convert.ToDouble(appointment.Time) * 60) / 30; ;
                 for (int i = 0; i < duration; i++)
                 {
-                    workSchedule[day,index + i] = "";
+                    workSchedule[day, index + i] = "";
                 }
             }
-            string json= Newtonsoft.Json.JsonConvert.SerializeObject(workSchedule);
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(workSchedule);
             Print(workSchedule);
             return json;
         }
 
-         void Print(string[,] args)
+        void Print(string[,] args)
         {
             for (int i = 0; i < args.GetLength(0); i++)
             {
@@ -133,7 +153,7 @@ namespace BookItWebService.Controllers
         {
             int startHour = 9;
             int finishHour = 19;
-            string[,] times = new string[ days,(finishHour - startHour) * 4];
+            string[,] times = new string[days, (finishHour - startHour) * 2];
             int minutes = 0;
             for (int i = 0; i < times.GetLength(0); i++)
             {
@@ -154,7 +174,7 @@ namespace BookItWebService.Controllers
                         else
                             times[i, j] = $"{start}:{minutes}";
                     }
-                    minutes += 15;
+                    minutes += 30;
                     if (minutes == 60)
                     {
                         minutes = 0;
@@ -167,158 +187,158 @@ namespace BookItWebService.Controllers
         }
 
         [HttpGet]
-            public JsonResult GetFullyBookedDates()
+        public JsonResult GetFullyBookedDates()
+        {
+            try
             {
-                try
-                {
-                    this.db.OpenConnection();
-                    //get full days from db
-                    JsonResult fullyBookedDays = unitOfWork.UserRepository.GetFullyBookedDays();
-                    return fullyBookedDays;
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
+                this.db.OpenConnection();
+                //get full days from db
+                JsonResult fullyBookedDays = unitOfWork.UserRepository.GetFullyBookedDays();
+                return fullyBookedDays;
             }
-
-            [HttpPost]
-            public IActionResult MakeAnAppointment(Appointment appointment)
+            catch (Exception ex)
             {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.AppointmentRepository.Create(appointment);
-                    return Ok("User successfully made an appointment."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
+                return null;
             }
-
-            [HttpPost]
-            public IActionResult DelAppointment(string id)
+            finally
             {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.AppointmentRepository.Delete(id);
-                    return Ok("User successfully deleted an appointment."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
+                this.db.CloseConnection();
             }
-
-            [HttpGet]
-            public IActionResult GetUserBasket(string basketID)
-            {
-                try
-                {
-                    this.db.OpenConnection();
-                    ShoppingBasket b = unitOfWork.ShoppingBasketRepository.GetById(basketID);
-                    return Ok(b); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
-            }
-
-            [HttpPost]
-            public IActionResult Pay(ShoppingBasket basket)
-            {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.ShoppingBasketRepository.Update(basket);
-                    return Ok("User successfully payed on the basket."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
-            }
-
-            [HttpPost]
-            public IActionResult addProductToBasket(Product product, string basketID, int num)
-            {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.ShoppingBasketRepository.AddProduct(product, basketID, num);
-                    return Ok("User successfully added product to the basket."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
-            }
-
-            [HttpPost]
-            public IActionResult DelProduct(Product product, string basketID)
-            {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.ShoppingBasketRepository.DelProduct(product, basketID);
-                    return Ok("User successfully deleted product to the basket."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
-            }
-
-            [HttpPost]
-            public IActionResult updateAmount(Product product, string basketID, int num)
-            {
-                try
-                {
-                    this.db.OpenConnection();
-                    unitOfWork.ShoppingBasketRepository.updateAmount(product, basketID, num);
-                    return Ok("User successfully updated num  of  product to the basket."); // Return success message with 200 OK status
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-                }
-                finally
-                {
-                    this.db.CloseConnection();
-                }
-            }
-
         }
+
+        [HttpPost]
+        public IActionResult MakeAnAppointment(Appointment appointment)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.AppointmentRepository.Create(appointment);
+                return Ok("User successfully made an appointment."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DelAppointment(string id)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.AppointmentRepository.Delete(id);
+                return Ok("User successfully deleted an appointment."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetUserBasket(string basketID)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                ShoppingBasket b = unitOfWork.ShoppingBasketRepository.GetById(basketID);
+                return Ok(b); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Pay(ShoppingBasket basket)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.ShoppingBasketRepository.Update(basket);
+                return Ok("User successfully payed on the basket."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult addProductToBasket(Product product, string basketID, int num)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.ShoppingBasketRepository.AddProduct(product, basketID, num);
+                return Ok("User successfully added product to the basket."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DelProduct(Product product, string basketID)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.ShoppingBasketRepository.DelProduct(product, basketID);
+                return Ok("User successfully deleted product to the basket."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult updateAmount(Product product, string basketID, int num)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                unitOfWork.ShoppingBasketRepository.updateAmount(product, basketID, num);
+                return Ok("User successfully updated num  of  product to the basket."); // Return success message with 200 OK status
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+
     }
+}
 

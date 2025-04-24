@@ -124,5 +124,19 @@ namespace BookItWebService
             }
             return list;
         }
+
+        public bool AddAppoiment(string treatmentID, string userID, string date, string time, string duration)
+        {
+            string sql = $@"INSERT INTO Apointments (userID, [Date], [Time], Oclock, TreatmentID) " +
+                         "values(@userID, @date, @time, @oclock, @treatmentID)";
+            this._dbContext.AddParameter("@treatmentID", treatmentID);
+            this._dbContext.AddParameter("@userID", userID);
+            this._dbContext.AddParameter("@oclock", time);
+            this._dbContext.AddParameter("@date", date);
+            this._dbContext.AddParameter("@time", duration);
+            bool ok= this._dbContext.Insert(sql);
+            this._dbContext.ClearParameters();
+            return ok;
+        }
     }
 }

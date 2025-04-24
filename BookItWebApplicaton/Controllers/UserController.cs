@@ -1,6 +1,9 @@
 ﻿using BookIt;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Xml.Linq;
 using WebApiClient;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookItWebApplication.Controllers
 {
@@ -76,7 +79,8 @@ namespace BookItWebApplication.Controllers
             return RedirectToAction("GetWorksCatalog", "Catalog");//get back to the home page
         }
 
-        //public 
+       
+
 
     }
 }
