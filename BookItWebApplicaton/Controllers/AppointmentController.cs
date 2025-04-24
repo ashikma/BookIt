@@ -1,5 +1,6 @@
 ﻿using BookIt;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using WebApiClient;
 
 namespace BookItWebApplication.Controllers
@@ -15,7 +16,7 @@ namespace BookItWebApplication.Controllers
         {
             var managers = GetAviableTime();
             ViewBag.TreatmentID = treatmentId;
-            ViewBag.UserID = "11";//session
+            ViewBag.UserID = "8";//session
             ViewBag.Duration = duration;
             return View(managers);
         }
@@ -43,7 +44,7 @@ namespace BookItWebApplication.Controllers
             return View();
         }
 
-        public PartialViewResult ScheduleTreatment(string treatmentID, string userID, string date, string time,string duration)
+        public IActionResult ScheduleTreatment(string treatmentID, string userID, string date, string time,string duration)
         {
             WebClient<bool> webClient = new WebClient<bool>();
             webClient.Schema = "http";
@@ -67,7 +68,7 @@ namespace BookItWebApplication.Controllers
                 ViewBag.Message = "Failed to schedule your appointment. Please try again.";
             }
 
-            return PartialView(managers);
+            return RedirectToAction("ChooseTender", "Appointment");
         }
         private string[,] GetAviableTime()
         {
@@ -75,7 +76,11 @@ namespace BookItWebApplication.Controllers
             webClient.Schema = "http";
             webClient.Port = 5221;
             webClient.Host = "localhost";
-            webClient.Path = "api/User/GetSchedule";
+            string start = DateTime.Today.ToString("dd/MM/yyyy"); 
+            string finish = DateTime.Today.AddDays(6).ToString("dd/MM/yyyy");
+            webClient.Path = $@"api/User/GetSchedule";
+            webClient.AddParam("start", start);
+            webClient.AddParam("finish", finish);
             string json = webClient.Get().Result;
             var managers = Newtonsoft.Json.JsonConvert.DeserializeObject<string[,]>(json);
             return managers;

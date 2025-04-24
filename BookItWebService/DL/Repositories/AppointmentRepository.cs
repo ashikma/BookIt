@@ -127,8 +127,8 @@ namespace BookItWebService
 
         public bool AddAppoiment(string treatmentID, string userID, string date, string time, string duration)
         {
-            string sql = $@"INSERT INTO Apointments (userID, [Date], [Time], Oclock, TreatmentID) " +
-                         "values(@userID, @date, @time, @oclock, @treatmentID)";
+            string sql = $@"INSERT INTO Apointments (userID, [Date], [Time], Oclock, TreatmentID)
+                            values({userID}, '{date}', '{duration}', '{time}', {treatmentID})";
             this._dbContext.AddParameter("@treatmentID", treatmentID);
             this._dbContext.AddParameter("@userID", userID);
             this._dbContext.AddParameter("@oclock", time);

@@ -44,36 +44,39 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript">
 
+
          function setApoiment (treatmentID , userID,date,time,duration )
          {
       
-                let uri = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
-                alert(uri);
-                $.ajax({
-                    url: uri,
-                    method: "GET",
-                    dataType: "html",
-                    beforeSend: function () {
-                        let loader = "<div class=loader>" +
-                            "<img src='content/images/loader.gif' />" +
-                            "</div>";
-                        $("#main").html(loader);
+                let url = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
+                 window.location.href = url;
+               
+                // alert(uri);
+                // $.ajax({
+                //     url: uri,
+                //     method: "GET",
+                //     dataType: "html",
+                //     beforeSend: function () {
+                //         // let loader = "<div class=loader>" +
+                //         //     "<img src='content/images/loader.gif' />" +
+                //         //     "</div>";
+                //         // $("#main").html(loader);
 
-                    },
-                    error: function () {
-                        // your code here;
-                    },
-                    success: function (data) {
-                        alert(data);
-                        setTimeout(function () {
-                            $("#pickerConteiner").html(data);
-                        }, 2000);
+                //     },
+                //     error: function () {
+                //         // your code here;
+                //     },
+                //     success: function (data) {
+                //         // alert(data);
+                //         // setTimeout(function () {
+                //         //     $("#pickerConteiner").html(data);
+                //         // }, 2000);
 
-                    },
-                    complete: function () {
-                        // your code here;
-                    }
-                });
+                //     },
+                //     complete: function () {
+                //         // your code here;
+                //     }
+                // });
             }
   
 
@@ -124,7 +127,7 @@
                 if (month.length < 2) {
                     month = '0' + month;
                 }
-                return year + '-' + month + '-' + date;
+                    return date + '/' + month + '/' + year;
             };
 
             // Eto ang controller para lumipat ng linggo

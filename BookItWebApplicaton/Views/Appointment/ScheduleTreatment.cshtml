@@ -46,19 +46,19 @@
                     method: "GET",
                     dataType: "html",
                     beforeSend: function () {
-                        let loader = "<div class=loader>" +
-                            "<img src='content/images/loader.gif' />" +
-                            "</div>";
-                        $("#main").html(loader);
+                        // let loader = "<div class=loader>" +
+                        //     "<img src='content/images/loader.gif' />" +
+                        //     "</div>";
+                        // $("#main").html(loader);
 
                     },
                     error: function () {
                         // your code here;
                     },
                     success: function (data) {
-                        setTimeout(function () {
-                            $("#main").html(data);
-                        }, 2000);
+                        // setTimeout(function () {
+                        //     $("#main").html(data);
+                        // }, 2000);
 
                     },
                     complete: function () {
@@ -69,8 +69,7 @@
 
 
        (function ($) {
-        // https://stackoverflow.com/questions/563406/add-days-to-javascript-date
-        Date.prototype.addDays = function (days) {
+            Date.prototype.addDays = function (days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);
             return date;
@@ -115,7 +114,8 @@
                 if (month.length < 2) {
                     month = '0' + month;
                 }
-                return year + '-' + month + '-' + date;
+                alert(date + '/' + month + '/' + year);
+                return date + '/' + month + '/' + year;
             };
 
             // Eto ang controller para lumipat ng linggo
@@ -158,6 +158,7 @@
 
             // kuhanin ang mga pwedeng oras sa bawat araw ng kasalukuyang linggo
             this.getAvailableTimes = function () {
+                alert("23");
                 var tmp = ``;
                 for (i = 0; i < 7; i++) {
                     var tmpAvailTimes = ``;
