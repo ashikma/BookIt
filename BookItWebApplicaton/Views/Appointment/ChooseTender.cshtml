@@ -32,7 +32,7 @@
 <link href="~/content/styles/managers.css" rel="stylesheet" />
 <link href="~/content/styles/calendar.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+<link href="~/content/styles/popupwindow.css" rel="stylesheet" />
 <div id="pickerConteiner">
      <div id="picker"></div>
 
@@ -45,43 +45,41 @@
     <script type="text/javascript">
 
 
-         function setApoiment (treatmentID , userID,date,time,duration )
-         {
-      
-                let url = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
-                 window.location.href = url;
-               
-                // alert(uri);
-                // $.ajax({
-                //     url: uri,
-                //     method: "GET",
-                //     dataType: "html",
-                //     beforeSend: function () {
-                //         // let loader = "<div class=loader>" +
-                //         //     "<img src='content/images/loader.gif' />" +
-                //         //     "</div>";
-                //         // $("#main").html(loader);
+         function setApoiment (treatmentID , userID,date,time,duration ) {
+                // let url = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
+                //  window.location.href = url;
+                 var modal = document.getElementById("myModal");
+                  modal.style.display = "flex";
+                 let url = `http://localhost:5092/Appointment/GetApoimentDetals/?treatmentID=${treatmentID}&date=${date}&time=${time}`;
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "html",
+                    beforeSend: function () {
+                    },
+                    error: function () {
+                        // your code here;
+                    },
+                    success: function (data) {
+                        alert(data);
+                       
+                        $("#modalbody").html(data);
+                    },
 
-                //     },
-                //     error: function () {
-                //         // your code here;
-                //     },
-                //     success: function (data) {
-                //         // alert(data);
-                //         // setTimeout(function () {
-                //         //     $("#pickerConteiner").html(data);
-                //         // }, 2000);
-
-                //     },
-                //     complete: function () {
-                //         // your code here;
-                //     }
-                // });
+                    
+                    complete: function () {
+                        // your code here;
+                    }
+                }
+                );
             }
   
+         function getApoimentDetals()
+         {
+
+         }
 
        (function ($) {
-        // https://stackoverflow.com/questions/563406/add-days-to-javascript-date
         Date.prototype.addDays = function (days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);
@@ -175,7 +173,7 @@
                     var tmpAvailTimes = ``;
                     $.each(settings.availability[i], function () {
                         tmpAvailTimes += `
-                                    <a href="javascript:;" class="myc-available-time"
+                                            <a href="javascript:;" class="myc-available-time" 
                                     data-treatmentid=@ViewBag.TreatmentID.ToString()
                                     data-userid=@ViewBag.UserID.ToString()
                                     data-duration=@ViewBag.Duration.ToString()
@@ -236,7 +234,6 @@
                 var userID = $(this).data('userid');
                 var duration = $(this).data('duration');
                 var tmp = date + ' ' + time;
-                alert(treatmentID + " " + userID + " " + duration);
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
                     var idx = settings.selectedDates.indexOf(tmp);
@@ -370,6 +367,25 @@
         })(jQuery);
     </script>
 </div>
-   
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+      <div class="modalborder">
+      <div class="modal-header">
+                <h1 class="windowHeader">Book an appointment</h1>
+                <span class="close">&times;</span>
+      </div>
+      <div class="modalbody" id="modalbody"></div>
+      <div class="modal-footer">
+                <button class="btn btn-primary" id="btnBook">Book</button>
+                <button class="btn btn-secondary" id="btnCancel">Cancel</button
+      </div>
+     
+  </div>
+
+</div> 
+</div>
+<script src="~/content/scripts/popupwindow.js"></script>
 
 

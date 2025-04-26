@@ -2,6 +2,7 @@
 using BookItModels.viewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookItWebService.Controllers
 {
@@ -80,15 +81,15 @@ namespace BookItWebService.Controllers
         }
 
         [HttpGet]
-       public bool ScheduleTreatment(string treatmentID, string userID, string date,
+        public bool ScheduleTreatment(string treatmentID, string userID, string date,
                                         string time, string duration)
         {
             try
             {
                 this.db.OpenConnection();
-                bool ok= unitOfWork.AppointmentRepository.AddAppoiment(treatmentID, userID,
-                                                                       date,time, duration);
-                return ok; 
+                bool ok = unitOfWork.AppointmentRepository.AddAppoiment(treatmentID, userID,
+                                                                       date, time, duration);
+                return ok;
             }
             catch (Exception ex) {
                 return false;
@@ -100,7 +101,7 @@ namespace BookItWebService.Controllers
         }
 
 
-            [HttpGet]
+        [HttpGet]
         public string GetSchedule(string start = "23/04/2025", string finish = "29/04/2025")
         {
             List<Appointment> appointments = null;
@@ -120,8 +121,12 @@ namespace BookItWebService.Controllers
             DateTime startDate = DateTime.ParseExact(start, "dd/MM/yyyy", null);
             DateTime finishDate = DateTime.ParseExact(finish, "dd/MM/yyyy", null);
             TimeSpan timeSpan = finishDate - startDate;
+            int weekDay = (int)startDate.DayOfWeek;
             int days = timeSpan.Days + 1;
-            string[,] workSchedule = GetTimes(days);
+            int seturday = Math.Abs(weekDay - 6);
+            int friday = Math.Abs(weekDay - 5);
+            if (seturday == 0) friday = 6;
+            string[,] workSchedule = GetTimes(days, seturday, friday);
             foreach (Appointment appointment in appointments)
             {
                 DateTime appointmentDate = DateTime.ParseExact(appointment.Date + " " + appointment.Oclock, "dd/MM/yyyy HH:mm", null); ;
@@ -136,9 +141,36 @@ namespace BookItWebService.Controllers
                 }
             }
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(workSchedule);
-            Print(workSchedule);
+            //Print(workSchedule);
             return json;
         }
+
+        [HttpGet]
+        public AppoimentDetals GetApoimentDetals(string treatmentID,string date, string time)
+        {
+            try
+            {
+                this.db.OpenConnection();
+                AppoimentDetals appoimentDetal = new AppoimentDetals()
+                {
+                     Treatment = unitOfWork.TreatmentRepository.GetById(treatmentID),
+                     Cost = 150.ToString(),
+                     Date = date,
+                     Oclock = time
+                };
+                return appoimentDetal;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                this.db.CloseConnection();
+            }
+        }
+        
+   
 
         void Print(string[,] args)
         {
@@ -149,10 +181,11 @@ namespace BookItWebService.Controllers
                 Console.WriteLine();
             }
         }
-        private string[,] GetTimes(int days)
+        private string[,] GetTimes(int days,int seturday, int friday)
         {
             int startHour = 9;
             int finishHour = 19;
+            int finishFriday = 10;
             string[,] times = new string[days, (finishHour - startHour) * 2];
             int minutes = 0;
             for (int i = 0; i < times.GetLength(0); i++)
@@ -160,20 +193,43 @@ namespace BookItWebService.Controllers
                 int start = startHour;
                 for (int j = 0; j < times.GetLength(1); j++)
                 {
-                    if (start < 10)
+                    if (i == friday && j <= finishFriday)
                     {
-                        if (minutes == 0)
-                            times[i, j] = $"0{start}:0{minutes}";
+                        if (start < 10)
+                        {
+                            if (minutes == 0)
+                                times[i, j] = $"0{start}:0{minutes}";
+                            else
+                                times[i, j] = $"0{start}:{minutes}";
+                        }
                         else
-                            times[i, j] = $"0{start}:{minutes}";
+                        {
+                            if (minutes == 0)
+                                times[i, j] = $"{start}:0{minutes}";
+                            else
+                                times[i, j] = $"{start}:{minutes}";
+                        }
                     }
-                    else
+                    else if (i != seturday && i !=friday)
                     {
-                        if (minutes == 0)
-                            times[i, j] = $"{start}:0{minutes}";
+                        if (start < 10)
+                        {
+                            if (minutes == 0)
+                                times[i, j] = $"0{start}:0{minutes}";
+                            else
+                                times[i, j] = $"0{start}:{minutes}";
+                        }
                         else
-                            times[i, j] = $"{start}:{minutes}";
+                        {
+                            if (minutes == 0)
+                                times[i, j] = $"{start}:0{minutes}";
+                            else
+                                times[i, j] = $"{start}:{minutes}";
+                        }
                     }
+                    
+                    else 
+                        times[i, j] = "";
                     minutes += 30;
                     if (minutes == 60)
                     {

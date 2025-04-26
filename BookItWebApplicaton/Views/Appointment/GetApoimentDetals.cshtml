@@ -1,0 +1,13 @@
+﻿@using BookItModels.viewModel
+@model AppoimentDetals
+<div class="appoimentTitle">
+    <h2>Appointment Details</h2>
+    <div class="appoimentDetals">
+        <h3>Treatment Name: @Model.Treatment.TreatmentName</h3>
+        <p><strong>Treatment Explanation: </strong> @Model.Treatment.Explanation</p>
+        <p><strong>Treatment Duration:</strong> @Model.Treatment.TimeRange</p>
+        <p><strong>Appointment Date:</strong> @Model.Date</p>
+        <p><strong>Appointment Time:</strong> @Model.Oclock</p>
+        <p><strong>Appointment Price:</strong> @Model.Cost</p>
+    </div>
+</div>

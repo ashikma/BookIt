@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
 
 namespace BookItWebService
 {
@@ -70,7 +71,14 @@ namespace BookItWebService
         /// <returns>A Treatment object representing the treatment.</returns>
         public Treatment GetById(string id)
         {
-            throw new NotImplementedException();
+            string sql = $@"SELECT * FROM Treatments WHERE TreatmentID={id}";
+            using (IDataReader reader = this._dbContext.Read(sql))
+            {
+                reader.Read();
+                
+                 return this.modelFactory.TreatmentCreator.CreateModel(reader);
+            }
+            return null;
         }
 
         /// <summary>

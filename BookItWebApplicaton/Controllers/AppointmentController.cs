@@ -1,4 +1,5 @@
 ﻿using BookIt;
+using BookItModels.viewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using WebApiClient;
@@ -20,8 +21,22 @@ namespace BookItWebApplication.Controllers
             ViewBag.Duration = duration;
             return View(managers);
         }
+        private string[,] GetAviableTime()
+        {
+            WebClient<string> webClient = new WebClient<string>();
+            webClient.Schema = "http";
+            webClient.Port = 5221;
+            webClient.Host = "localhost";
+            string start = DateTime.Today.ToString("dd/MM/yyyy");
+            string finish = DateTime.Today.AddDays(6).ToString("dd/MM/yyyy");
+            webClient.Path = $@"api/User/GetSchedule";
+            webClient.AddParam("start", start);
+            webClient.AddParam("finish", finish);
+            string json = webClient.Get().Result;
+            var schedule = Newtonsoft.Json.JsonConvert.DeserializeObject<string[,]>(json);
+            return schedule;
+        }
 
-     
 
 
         public JsonResult GetFullyBookedDates()
@@ -70,20 +85,20 @@ namespace BookItWebApplication.Controllers
 
             return RedirectToAction("ChooseTender", "Appointment");
         }
-        private string[,] GetAviableTime()
+
+        public PartialViewResult GetApoimentDetals(string treatmentID, string date, string time)
         {
-            WebClient<string> webClient = new WebClient<string>();
+            WebClient<AppoimentDetals> webClient = new WebClient<AppoimentDetals>();
             webClient.Schema = "http";
             webClient.Port = 5221;
             webClient.Host = "localhost";
-            string start = DateTime.Today.ToString("dd/MM/yyyy"); 
-            string finish = DateTime.Today.AddDays(6).ToString("dd/MM/yyyy");
-            webClient.Path = $@"api/User/GetSchedule";
-            webClient.AddParam("start", start);
-            webClient.AddParam("finish", finish);
-            string json = webClient.Get().Result;
-            var managers = Newtonsoft.Json.JsonConvert.DeserializeObject<string[,]>(json);
-            return managers;
+            webClient.Path = "api/User/GetApoimentDetals";
+            webClient.AddParam("treatmentID", treatmentID);
+            webClient.AddParam("date", date);
+            webClient.AddParam("time", time);
+            AppoimentDetals appoimentDetals= webClient.Get().Result;
+            return PartialView(appoimentDetals);
         }
+       
     }
 }
