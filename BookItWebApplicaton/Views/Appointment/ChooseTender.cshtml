@@ -43,11 +43,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript">
+        var treatmentID = "";
+        var userID = "";
+        var date = "";
+        var time = "";
+        var duration = "";
 
+        function cancelbook () {
+            modal.style.display = "none";
+        }
+        function bookapoiment () {
+            modal.style.display = "none";
+            let url = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
+            window.location.href = url;
+        }
 
-         function setApoiment (treatmentID , userID,date,time,duration ) {
-                // let url = `http://localhost:5092/Appointment/ScheduleTreatment/?treatmentID=${treatmentID}&userID=${userID}&date=${date}&time=${time}&duration=${duration}`;
-                //  window.location.href = url;
+         function setApoiment () {
+               
                  var modal = document.getElementById("myModal");
                   modal.style.display = "flex";
                  let url = `http://localhost:5092/Appointment/GetApoimentDetals/?treatmentID=${treatmentID}&date=${date}&time=${time}`;
@@ -80,6 +92,8 @@
          }
 
        (function ($) {
+
+           
         Date.prototype.addDays = function (days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);
@@ -228,11 +242,11 @@
             // pag namili ng oras
             this.on('click', '.myc-available-time', function () {
 
-                var date = $(this).data('date');
-                var time = $(this).data('time');
-                var treatmentID = $(this).data('treatmentid');
-                var userID = $(this).data('userid');
-                var duration = $(this).data('duration');
+                 date = $(this).data('date');
+                 time = $(this).data('time');
+                 treatmentID = $(this).data('treatmentid');
+                 userID = $(this).data('userid');
+                 duration = $(this).data('duration');
                 var tmp = date + ' ' + time;
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
@@ -256,7 +270,7 @@
                 if ($.isFunction(onClick)) {
                     onClick.call(this, ...arguments, settings.selectedDates);
                 }
-                setApoiment(treatmentID, userID, date, time, duration); 
+                setApoiment(); 
             });
 
             var render = function () {
@@ -378,14 +392,17 @@
       </div>
       <div class="modalbody" id="modalbody"></div>
       <div class="modal-footer">
-                <button class="btn btn-primary" id="btnBook">Book</button>
-                <button class="btn btn-secondary" id="btnCancel">Cancel</button
+                <button class="btn btn-primary" id="btnBook" onclick="bookapoiment()">Book</button>
+                <button class="btn btn-secondary" id="btnCancel" onclick="cancelbook()">Cancel</button>
       </div>
      
   </div>
 
 </div> 
 </div>
+<script >
+
+</script>
 <script src="~/content/scripts/popupwindow.js"></script>
 
 
